@@ -26,7 +26,14 @@ import {
   Search,
   Loader2,
   FileText,
-  ExternalLink
+  ExternalLink,
+  Globe,
+  Building2,
+  Network,
+  Newspaper,
+  Zap,
+  CheckCircle2,
+  Globe2
 } from 'lucide-react';
 
 // --- Constants ---
@@ -153,8 +160,9 @@ const Navbar = () => {
 
   const navLinks = [
     { name: 'Home', path: '/' },
-    { name: 'Research', path: '/#research-search' },
     { name: 'About', path: '/about' },
+    { name: 'Research', path: '/research' },
+    { name: 'Partnerships', path: '/partnerships' },
     { name: 'Contact', path: '/contact' },
   ];
 
@@ -322,12 +330,21 @@ const Footer = () => (
                 </div>
       </div>
       <div>
-        <h4 className="font-semibold mb-6">Research Areas</h4>
+        <h4 className="font-semibold mb-6">Resources</h4>
         <ul className="space-y-4 text-water-light/60 text-sm">
-          <li><Link to="/" className="hover:text-white transition-colors">Hydrology Study</Link></li>
-          <li><Link to="/" className="hover:text-white transition-colors">Climate Adaptation</Link></li>
-          <li><Link to="/" className="hover:text-white transition-colors">Wetland Livelihoods</Link></li>
-          <li><Link to="/" className="hover:text-white transition-colors">Policy Advocacy</Link></li>
+          <li><Link to="/research" className="hover:text-white transition-colors">Scientific Archive</Link></li>
+          <li><Link to="/research" className="hover:text-white transition-colors">Environmental Impact</Link></li>
+          <li><Link to="/partnerships" className="hover:text-white transition-colors">Strategic Partners</Link></li>
+          <li><Link to="/contact" className="hover:text-white transition-colors">Stakeholder Briefing</Link></li>
+        </ul>
+      </div>
+      <div>
+        <h4 className="font-semibold mb-6">Organization</h4>
+        <ul className="space-y-4 text-water-light/60 text-sm">
+          <li><Link to="/about" className="hover:text-white transition-colors">Our Mission</Link></li>
+          <li><Link to="/about" className="hover:text-white transition-colors">Leadership</Link></li>
+          <li><Link to="/contact" className="hover:text-white transition-colors">Media Centre</Link></li>
+          <li><Link to="/contact" className="hover:text-white transition-colors">Careers</Link></li>
         </ul>
       </div>
       <div>
@@ -433,7 +450,7 @@ const HomePage = () => {
               We bridge the gap between indigenous hydrology and evidence-based policy to protect our region's natural treasures.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
             {cards.map((card, idx) => (
               <motion.div
                 key={card.title}
@@ -462,18 +479,105 @@ const HomePage = () => {
                   <p className="text-slate-600 leading-relaxed mb-6 italic text-sm">
                     {card.desc}
                   </p>
-                  <Link to={`/about`} className="text-water-blue font-bold text-sm inline-flex items-center gap-2 group/btn">
+                  <Link to={`/research`} className="text-water-blue font-bold text-sm inline-flex items-center gap-2 group/btn">
                     Read Research <ArrowRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
                   </Link>
                 </div>
               </motion.div>
             ))}
           </div>
+
+          {/* Scientific Impact Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 py-16 border-y border-slate-200">
+            <div className="text-center">
+              <div className="text-4xl font-black text-nile-blue mb-2">120+</div>
+              <div className="text-[10px] uppercase tracking-[0.2em] font-bold text-slate-500">Research Papers</div>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl font-black text-nile-blue mb-2">45k</div>
+              <div className="text-[10px] uppercase tracking-[0.2em] font-bold text-slate-500">Sq KM Monitored</div>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl font-black text-nile-blue mb-2">12</div>
+              <div className="text-[10px] uppercase tracking-[0.2em] font-bold text-slate-500">Global Partners</div>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl font-black text-nile-blue mb-2">10M</div>
+              <div className="text-[10px] uppercase tracking-[0.2em] font-bold text-slate-500">Lives Impacted</div>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* AI Research Search Section */}
       <SearchSection />
+
+      {/* News & Strategic Updates Section */}
+      <section className="py-24 bg-white">
+        <div className="content-section">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+            <div className="max-w-2xl">
+              <span className="text-xs font-bold uppercase tracking-[0.3em] text-nile-blue">Media Centre</span>
+              <h2 className="text-4xl font-bold text-water-dark mt-4">Current Scientific Briefings</h2>
+            </div>
+            <Link to="/research" className="text-nile-blue font-bold flex items-center gap-2 group underline decoration-2 underline-offset-8 decoration-nile-blue/20 hover:decoration-nile-blue transition-all">
+              View All Press Releases <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            {[
+              {
+                title: "WNSC Submits White Paper on Sudd Basin Management to Regional Stakeholders",
+                category: "Policy",
+                date: "April 15, 2026",
+                image: "https://images.unsplash.com/photo-1454165205744-3b78555e5572?auto=format&fit=crop&q=80&w=800"
+              },
+              {
+                title: "Joint Expedition with Global Hydrology Partners Completes Wetland Biomass Survey",
+                category: "Research",
+                date: "March 28, 2026",
+                image: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&q=80&w=800"
+              },
+              {
+                title: "Upcoming Seminar: The Role of Indigenous Wisdom in Modern Climate Adaptation",
+                category: "Event",
+                date: "May 10, 2026",
+                image: "https://images.unsplash.com/photo-1544333323-5374438186f2?auto=format&fit=crop&q=80&w=800"
+              }
+            ].map((news, i) => (
+              <motion.div 
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="group cursor-pointer"
+              >
+                <div className="relative h-64 rounded-3xl overflow-hidden mb-6">
+                  <img 
+                    src={news.image} 
+                    alt={news.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    referrerPolicy="no-referrer"
+                  />
+                  <div className="absolute top-4 left-4">
+                    <span className="px-4 py-2 bg-white/90 backdrop-blur-md rounded-xl text-[10px] font-black uppercase tracking-widest text-nile-blue shadow-sm">
+                      {news.category}
+                    </span>
+                  </div>
+                </div>
+                <div className="space-y-3 px-2">
+                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{news.date}</p>
+                  <h3 className="text-xl font-bold text-water-dark group-hover:text-nile-blue transition-colors leading-tight">
+                    {news.title}
+                  </h3>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Call to Action */}
       <section className="bg-wetland-dark py-24 text-white relative overflow-hidden">
@@ -601,6 +705,84 @@ const AboutPage = () => {
         </motion.div>
       </section>
 
+      {/* Strategic Vision Section */}
+      <section className="bg-slate-50 py-24">
+        <div className="content-section">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+            <div className="relative">
+              <div className="absolute -top-10 -left-10 w-40 h-40 bg-nile-blue/10 rounded-full blur-3xl animate-pulse" />
+              <img 
+                src="https://images.unsplash.com/photo-1544465544-1b71aee9dfa3?auto=format&fit=crop&q=80&w=800" 
+                className="rounded-[3rem] shadow-2xl relative z-10"
+                alt="Environmental Leadership"
+                referrerPolicy="no-referrer"
+              />
+              <div className="absolute -bottom-6 -right-6 bg-white p-6 rounded-2xl shadow-xl z-20 flex items-center gap-4">
+                <div className="w-12 h-12 bg-wetland-green rounded-xl flex items-center justify-center text-white">
+                  <CheckCircle2 size={24} />
+                </div>
+                <div>
+                  <div className="text-xs uppercase tracking-widest font-bold text-slate-400 mb-1">Status</div>
+                  <div className="text-sm font-bold text-slate-900">Active Monitoring</div>
+                </div>
+              </div>
+            </div>
+            <div className="space-y-8">
+              <h2 className="text-4xl font-bold text-water-dark leading-tight">Securing the Sudd: A National Strategic Priority.</h2>
+              <p className="text-slate-600 text-lg leading-relaxed">
+                The White Nile and Sudd Centre operates as the primary advisory body on South Sudan's hydrological strategic interests. We provide the scientific foundation required for transboundary water negotiations and internal resource management.
+              </p>
+              <ul className="space-y-4">
+                {[
+                  "Real-time hydrological data acquisition",
+                  "Environmental and Social Impact Assessments (ESIAs)",
+                  "Fisheries and biodiversity conservation strategies"
+                ].map((item, i) => (
+                  <li key={i} className="flex items-center gap-3 text-slate-700 font-medium">
+                    <div className="w-6 h-6 rounded-full bg-nile-blue/10 flex items-center justify-center text-nile-blue">
+                      <Zap size={14} />
+                    </div>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Team/Leadership Section */}
+      <section className="bg-slate-50 py-24">
+        <div className="content-section">
+          <div className="text-center max-w-3xl mx-auto mb-20">
+            <span className="text-xs font-bold uppercase tracking-[0.3em] text-nile-blue">Our Leadership</span>
+            <h2 className="text-4xl font-bold text-water-dark mt-4">The Scientific Vanguard</h2>
+            <p className="text-slate-600 mt-6 text-lg">
+              WNSC is led by a distinguished collective of hydrologists, environmental lawyers, and policy experts.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            {[
+              { name: "Dr. Lual Deng", role: "Executive Director", focus: "Environmental Policy" },
+              { name: "Prof. Sarah Nyandeng", role: "Chief Hydrologist", focus: "Wetland Dynamics" },
+              { name: "Hon. Kuol Manyang", role: "Strategic Advisor", focus: "Transboundary Waters" }
+            ].map((member, i) => (
+              <div key={i} className="group bg-white p-10 rounded-[3rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all text-center">
+                <div className="w-24 h-24 bg-slate-100 rounded-full mx-auto mb-6 flex items-center justify-center text-slate-300 group-hover:bg-nile-blue/10 group-hover:text-nile-blue transition-all">
+                  <Users size={40} />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 mb-1">{member.name}</h3>
+                <p className="text-nile-blue text-sm font-bold uppercase tracking-widest mb-4">{member.role}</p>
+                <div className="pt-4 border-t border-slate-50">
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Expertise: {member.focus}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Field Operations Image Section */}
       <section className="content-section py-20 bg-white rounded-[4rem] mb-24 shadow-sm border border-slate-100">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
@@ -632,6 +814,135 @@ const AboutPage = () => {
           </div>
         </div>
       </section>
+    </motion.div>
+  );
+};
+
+const ResearchPage = () => {
+  const categories = [
+    { title: "Hydrological Models", count: "42 Reports", icon: <Waves className="text-nile-blue" /> },
+    { title: "Ecosystem Health", count: "85 Studies", icon: <Leaf className="text-wetland-green" /> },
+    { title: "Policy Frameworks", count: "15 Papers", icon: <Scale className="text-slate-600" /> },
+    { title: "Sudd Biodiversity", count: "92 Records", icon: <Droplet className="text-water-blue" /> }
+  ];
+
+  return (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="pb-24">
+      <section className="bg-nile-blue py-32 text-center text-white relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <Globe2 size={800} className="absolute -right-20 -bottom-20 rotate-12" />
+        </div>
+        <div className="content-section relative z-10">
+          <h1 className="text-5xl font-bold mb-6">Research & Data Portal</h1>
+          <p className="text-water-light/60 text-xl max-w-2xl mx-auto font-light">
+            Access our comprehensive library of scientific research and environmental data for South Sudan.
+          </p>
+        </div>
+      </section>
+
+      <div className="content-section -mt-16 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-20">
+          {categories.map((cat) => (
+            <div key={cat.title} className="bg-white p-8 rounded-[2rem] shadow-xl border border-slate-100 flex flex-col items-center text-center group hover:-translate-y-2 transition-all">
+              <div className="w-14 h-14 rounded-2xl bg-slate-50 flex items-center justify-center mb-6 group-hover:bg-nile-blue/10 transition-colors">
+                {cat.icon}
+              </div>
+              <h3 className="font-bold text-slate-900 mb-2">{cat.title}</h3>
+              <p className="text-xs font-bold text-nile-blue uppercase tracking-widest">{cat.count}</p>
+            </div>
+          ))}
+        </div>
+
+        <SearchSection />
+
+        <div className="mt-24 space-y-12">
+          <h2 className="text-3xl font-bold text-water-dark border-l-4 border-nile-blue pl-6">Recent Scientific Publications</h2>
+          <div className="grid grid-cols-1 gap-6">
+            {[
+              { 
+                title: "Hydrological Shifts in the Sudd Wetlands: A Decadal Analysis", 
+                date: "March 2026",
+                category: "Hydrology",
+                type: "Technical Paper"
+              },
+              { 
+                title: "Impact of Local Oil Extraction on Surface Water Quality (2020-2025)", 
+                date: "January 2026",
+                category: "Environment",
+                type: "Impact Study"
+              },
+              { 
+                title: "Feasibility Study on the Resumption of the Jonglei Canal Project", 
+                date: "November 2025",
+                category: "Policy",
+                type: "Government Report"
+              }
+            ].map((pub, i) => (
+              <div key={i} className="flex flex-col md:flex-row md:items-center justify-between p-8 bg-white border border-slate-100 rounded-3xl hover:border-nile-blue/30 transition-all group">
+                <div className="space-y-2">
+                  <div className="flex items-center gap-3">
+                    <span className="px-3 py-1 rounded-full bg-slate-100 text-[10px] font-bold uppercase tracking-widest text-slate-500">{pub.category}</span>
+                    <span className="text-[10px] font-bold text-nile-blue uppercase tracking-widest">{pub.type}</span>
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-900 group-hover:text-nile-blue transition-colors">{pub.title}</h3>
+                  <p className="text-sm text-slate-400 font-medium">Published on {pub.date}</p>
+                </div>
+                <button className="mt-6 md:mt-0 px-6 py-3 border-2 border-slate-100 rounded-xl font-bold text-sm text-slate-600 hover:bg-slate-50 flex items-center gap-2 group/btn">
+                  Download PDF <FileText size={18} className="text-nile-blue" />
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+const PartnershipsPage = () => {
+  return (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="pb-24">
+      <section className="bg-wetland-dark py-32 text-center text-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1541746972996-4e0b0f43e03a?auto=format&fit=crop&q=80&w=2000')] bg-cover bg-center opacity-10" />
+        <div className="content-section relative z-10">
+          <h1 className="text-5xl font-bold mb-6 tracking-tight">Global Collaboration</h1>
+          <p className="text-wetland-accent text-xl max-w-2xl mx-auto font-light leading-relaxed">
+            Uniting scientific minds across borders to secure South Sudan's water heritage.
+          </p>
+        </div>
+      </section>
+
+      <div className="content-section grid grid-cols-1 lg:grid-cols-2 gap-20 py-24 items-center">
+        <div className="space-y-8">
+          <h2 className="text-4xl font-bold text-water-dark leading-tight">A Multi-Stakeholder Research Ecosystem.</h2>
+          <p className="text-slate-600 text-lg leading-relaxed">
+            The WNSC believes that solving complex water challenges requires a convergence of national expertise and international resources. We partner with universities, NGOs, and government agencies to ensure our research is both globally significant and locally relevant.
+          </p>
+          <div className="grid grid-cols-2 gap-6">
+            <div className="p-6 rounded-2xl bg-slate-50 border border-slate-100">
+              <div className="text-2xl font-bold text-nile-blue mb-2">Scientific</div>
+              <p className="text-sm text-slate-500">Joint research papers and data sharing initiatives.</p>
+            </div>
+            <div className="p-6 rounded-2xl bg-slate-50 border border-slate-100">
+              <div className="text-2xl font-bold text-wetland-green mb-2">Technical</div>
+              <p className="text-sm text-slate-500">Infrastructure monitoring and field equipment support.</p>
+            </div>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-8">
+          {[
+            { icon: <Building2 size={40} />, label: "Academic Institutions" },
+            { icon: <Globe size={40} />, label: "Intl Resources Dept" },
+            { icon: <Network size={40} />, label: "NGO Consortiums" },
+            { icon: <Scale size={40} />, label: "Policy Think Tanks" }
+          ].map((item, i) => (
+            <div key={i} className="p-10 bg-white border border-slate-100 rounded-[2.5rem] shadow-sm flex flex-col items-center text-center group hover:border-nile-blue/20 transition-all">
+              <div className="text-slate-300 group-hover:text-nile-blue transition-colors mb-6">{item.icon}</div>
+              <span className="font-bold text-slate-900">{item.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
     </motion.div>
   );
 };
@@ -867,6 +1178,8 @@ export default function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
+            <Route path="/research" element={<ResearchPage />} />
+            <Route path="/partnerships" element={<PartnershipsPage />} />
             <Route path="/contact" element={<ContactPage />} />
           </Routes>
         </main>
