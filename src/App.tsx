@@ -38,7 +38,19 @@ import {
 
 // --- Constants ---
 const GEMINI_MODEL = "gemini-3-flash-preview";
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+
+// Lazy-initialized AI client to prevent crashes if API key is missing on startup
+let aiClient: GoogleGenAI | null = null;
+const getAI = () => {
+  if (!aiClient) {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      throw new Error("GEMINI_API_KEY environment variable is required. Please set it in the AI Studio Secrets panel.");
+    }
+    aiClient = new GoogleGenAI({ apiKey });
+  }
+  return aiClient;
+};
 
 // --- Components ---
 
@@ -68,6 +80,7 @@ const SearchSection = () => {
     setResults(null);
 
     try {
+      const ai = getAI();
       const response = await ai.models.generateContent({
         model: GEMINI_MODEL,
         contents: `Act as a research assistant for The White Nile and The Sudd Centre (WNSC). Using your search capabilities, find information related to: ${query}. Focus on research papers, reports, and up-to-date data about South Sudan's water resources, hydrology, and environmental policy. Provide a concise summary of findings.`,
@@ -80,7 +93,7 @@ const SearchSection = () => {
       setResults(response.text || "No specific research findings found for this query.");
     } catch (err) {
       console.error("Search error:", err);
-      setError("An error occurred while retrieving research data. Please try again later.");
+      setError("An error occurred while retrieving research data. Please try again later. Ensure your API key is configured correctly.");
     } finally {
       setLoading(false);
     }

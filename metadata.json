@@ -1,6 +1,5 @@
 {
   "name": "The White Nile and The Sudd Centre (WNSC)",
   "description": "A national think tank dedicated to the scientific study, preservation, and sustainable management of South Sudan’s water resources.",
-  "requestFramePermissions": [],
-  "majorCapabilities": []
+  "requestFramePermissions": []
 }
