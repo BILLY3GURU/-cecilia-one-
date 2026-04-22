@@ -1,0 +1,38 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap');
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Montserrat", sans-serif;
+  
+  --color-nile-blue: #004e92;
+  --color-wetland-green: #2d5a27;
+  
+  --color-water-dark: #00334e;
+  --color-water-blue: #00629b;
+  --color-water-light: #e6f3ff;
+  --color-wetland-dark: #1e3d2b;
+  --color-wetland-accent: #b2d3c2;
+}
+
+@layer base {
+  body {
+    @apply antialiased text-slate-900 bg-white;
+  }
+}
+
+.glass-nav {
+  @apply sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200/50 transition-all duration-300;
+}
+
+.hero-gradient {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6));
+}
+
+.content-section {
+  @apply py-20 px-6 max-w-7xl mx-auto;
+}
+
+.card-hover {
+  @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-water-blue/10;
+}
