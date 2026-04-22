@@ -309,14 +309,17 @@ const Footer = () => (
           National think tank dedicated to the scientific study, preservation, and sustainable management 
           of South Sudan’s water resources. Bridging the gap between indigenous hydrology and evidence-based policy.
         </p>
-        <div className="flex gap-4">
-          <a href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors">
-            <Mail size={18} />
-          </a>
-          <a href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors">
-            <MapPin size={18} />
-          </a>
-        </div>
+                <div className="flex gap-4">
+                  <a href="mailto:ceciliaatong@gmail.com" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors">
+                    <Mail size={18} />
+                  </a>
+                  <a href="tel:+254746413065" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors">
+                    <Phone size={18} />
+                  </a>
+                  <a href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors">
+                    <MapPin size={18} />
+                  </a>
+                </div>
       </div>
       <div>
         <h4 className="font-semibold mb-6">Research Areas</h4>
@@ -730,8 +733,8 @@ const ContactPage = () => {
                 </div>
                 <div>
                   <h4 className="font-bold text-sm uppercase tracking-widest text-water-light/40 mb-2">Email Us</h4>
-                  <p className="text-lg">info@wnsc.org.ss</p>
-                  <p className="text-sm text-water-light/60 mt-1 italic">research@wnsc.org.ss</p>
+                  <p className="text-lg">ceciliaatong@gmail.com</p>
+                  <p className="text-sm text-water-light/60 mt-1 italic">Official Communications</p>
                 </div>
               </div>
               <div className="flex items-start gap-6">
@@ -740,8 +743,8 @@ const ContactPage = () => {
                 </div>
                 <div>
                   <h4 className="font-bold text-sm uppercase tracking-widest text-water-light/40 mb-2">Call Center</h4>
-                  <p className="text-lg">+211 920 000 000</p>
-                  <p className="text-sm text-water-light/60 mt-1 italic">Mon - Fri, 8am - 5pm</p>
+                  <p className="text-lg">+254 746 413 065</p>
+                  <p className="text-sm text-water-light/60 mt-1 italic">Open for Inquiries</p>
                 </div>
               </div>
             </div>
