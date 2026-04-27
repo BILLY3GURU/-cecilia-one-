@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect, useRef, type ChangeEvent, type FormEvent, type ReactNode } from 'react';
-import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import { GoogleGenAI } from "@google/genai";
 import { 
@@ -70,10 +70,10 @@ const SearchSection = () => {
   const [results, setResults] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { search } = useLocation();
 
-  const handleSearch = async (e: FormEvent) => {
-    e.preventDefault();
-    if (!query.trim()) return;
+  const performSearch = async (searchTerm: string) => {
+    if (!searchTerm.trim()) return;
 
     setLoading(true);
     setError(null);
@@ -83,7 +83,7 @@ const SearchSection = () => {
       const ai = getAI();
       const response = await ai.models.generateContent({
         model: GEMINI_MODEL,
-        contents: `Act as a research assistant for The White Nile and The Sudd Centre (WNSC). Using your search capabilities, find information related to: ${query}. Focus on research papers, reports, and up-to-date data about South Sudan's water resources, hydrology, and environmental policy. Provide a concise summary of findings.`,
+        contents: `Act as a research assistant for The White Nile and The Sudd Centre (WNSC). Using your search capabilities, find information related to: ${searchTerm}. Focus on research papers, reports, and up-to-date data about South Sudan's water resources, hydrology, and environmental policy. Provide a concise summary of findings.`,
         config: {
           tools: [{ googleSearch: {} }],
           systemInstruction: "You are the WNSC Research Assistant. You provide evidence-based information regarding South Sudan's hydrology, climate risks, and water management. Always cite your sources or mention that information is derived from current research reports.",
@@ -97,6 +97,26 @@ const SearchSection = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  useEffect(() => {
+    const params = new URLSearchParams(search);
+    const q = params.get('q');
+    if (q) {
+      setQuery(q);
+      performSearch(q);
+      
+      // Also scroll to the search section if it exists
+      const element = document.getElementById('research-search');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  }, [search]);
+
+  const handleSearch = (e: FormEvent) => {
+    e.preventDefault();
+    performSearch(query);
   };
 
   return (
@@ -168,6 +188,48 @@ const SearchSection = () => {
         </div>
       </div>
     </section>
+  );
+};
+
+const GlobalSearchBar = () => {
+  const [query, setQuery] = useState("");
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!query.trim()) return;
+    
+    // Navigate to research page with query param
+    navigate(`/research?q=${encodeURIComponent(query)}#research-search`);
+  };
+
+  return (
+    <motion.div 
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="w-full bg-slate-50/80 backdrop-blur-md border-b border-slate-100 py-3 shadow-sm z-30"
+    >
+      <div className="content-section !py-0">
+        <form onSubmit={handleSearch} className="relative max-w-2xl mx-auto group">
+          <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-nile-blue transition-colors">
+            <Search size={16} />
+          </div>
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search the WNSC repository: reports, data, policy..."
+            className="w-full pl-12 pr-20 py-2.5 bg-white/50 border border-slate-200 rounded-full text-sm focus:outline-none focus:bg-white focus:border-nile-blue transition-all"
+          />
+          <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2 pointer-events-none">
+            <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest hidden sm:inline">AI GROUNDED</span>
+            <div className="h-4 w-px bg-slate-200 hidden sm:block"></div>
+            <Zap size={14} className="text-amber-500 animate-pulse" />
+          </div>
+        </form>
+      </div>
+    </motion.div>
   );
 };
 
@@ -1306,7 +1368,10 @@ export function App() {
   return (
     <div className="min-h-screen flex flex-col font-sans selection:bg-nile-blue/10 selection:text-nile-blue">
       <Navbar />
-      <main className="flex-grow pt-[80px]">
+      <div className="mt-[80px]">
+        <GlobalSearchBar />
+      </div>
+      <main className="flex-grow">
         <ScrollToTop />
         <AnimatePresence mode="wait" initial={false}>
           <Routes location={location}>
