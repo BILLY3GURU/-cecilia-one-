@@ -674,7 +674,7 @@ const HomePage = () => {
         <div className="content-section relative z-10 text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-8">Join the Scientific Vanguard</h2>
           <p className="text-wetland-accent text-xl mb-12 max-w-2xl mx-auto font-light leading-relaxed">
-            Collaborating with international research centers to secure a sustainable future for the White Nile basin.
+            Collaborating with international  and  regional  centers of execellence to secure a sustainable future for the White Nile basin.
           </p>
           <Link to="/contact" className="px-10 py-5 bg-white text-wetland-dark font-bold rounded-2xl hover:bg-wetland-accent transition-all inline-block shadow-2xl">
             Register as a Partner
@@ -960,7 +960,7 @@ const ResearchPage = () => {
             <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/40 mb-6 block">Knowledge Repository</span>
             <h1 className="text-6xl md:text-8xl font-display font-black mb-8 tracking-tighter leading-none">Research & Data.</h1>
             <p className="text-water-light/60 text-xl max-w-2xl mx-auto font-light leading-relaxed">
-              Access the largest repository of hydrological data and environmental studies dedicated to the Sudd Wetlands.
+              Access the focused  largest repository of hydrological products ,water resources,development /management and environmental studies dedicated to the Sudd region.
             </p>
           </FadeInSection>
         </div>
