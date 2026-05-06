@@ -7,6 +7,7 @@ import React, { useState, useEffect, useRef, type ChangeEvent, type FormEvent, t
 import { BrowserRouter, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import { GoogleGenAI } from "@google/genai";
+import Markdown from 'react-markdown';
 import { 
   Droplet, 
   Leaf, 
@@ -33,7 +34,8 @@ import {
   Newspaper,
   Zap,
   CheckCircle2,
-  Globe2
+  Globe2,
+  Download
 } from 'lucide-react';
 
 // --- Constants ---
@@ -93,7 +95,7 @@ const SearchSection = () => {
       setResults(response.text || "No specific research findings found for this query.");
     } catch (err) {
       console.error("Search error:", err);
-      setError("An error occurred while retrieving research data. Please try again later. Ensure your API key is configured correctly.");
+      setError("An error occurred while retrieving research data. Please try again later. Ensure your API key is configured correctly in the Secrets panel.");
     } finally {
       setLoading(false);
     }
@@ -174,8 +176,8 @@ const SearchSection = () => {
                   <div className="flex items-center gap-3 mb-6 text-water-blue font-bold uppercase tracking-widest text-xs">
                     <FileText size={18} /> Research Intelligence Report
                   </div>
-                  <div className="prose prose-slate max-w-none text-slate-700 leading-relaxed whitespace-pre-wrap font-sans">
-                    {results}
+                  <div className="markdown-body prose prose-slate max-w-none text-slate-700 leading-relaxed font-sans">
+                    <Markdown>{results}</Markdown>
                   </div>
                   <div className="mt-8 pt-6 border-t border-slate-200 flex justify-between items-center text-[10px] uppercase tracking-[0.2em] font-bold text-slate-400">
                     <span>Generated via WNSC AI-Grounding</span>
@@ -944,6 +946,30 @@ const ResearchPage = () => {
     { title: "Sudd Biodiversity", count: "92 Records", icon: <Droplet className="text-water-blue" /> }
   ];
 
+  const handleDownload = (title: string) => {
+    // In a real production environment, this would initiate a request to a secure document server.
+    // For this prototype, we simulate the interaction by logging the request and providing a success modal/effect.
+    console.log(`[SECURE_STORAGE] Initializing download for: ${title}`);
+    
+    const toast = document.createElement('div');
+    toast.className = 'fixed bottom-10 left-1/2 -translate-x-1/2 bg-water-dark/95 backdrop-blur-xl text-white px-8 py-4 rounded-3xl shadow-2xl z-[100] border border-white/10 flex items-center gap-4 animate-in fade-in slide-in-from-bottom-5';
+    toast.innerHTML = `
+      <div class="w-8 h-8 bg-nile-blue rounded-full flex items-center justify-center animate-pulse">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      </div>
+      <div>
+        <div class="text-[10px] uppercase font-black tracking-widest text-water-light/50">SECURE TRANSFER</div>
+        <div class="font-bold">Downloading: ${title.substring(0, 30)}...</div>
+      </div>
+    `;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+      toast.classList.add('animate-out', 'fade-out', 'slide-out-to-bottom-5');
+      setTimeout(() => toast.remove(), 500);
+    }, 4000);
+  };
+
   return (
     <motion.div 
       initial={{ opacity: 0 }} 
@@ -1038,8 +1064,11 @@ const ResearchPage = () => {
                     <h3 className="text-2xl font-display font-black text-slate-900 group-hover:text-nile-blue transition-colors leading-tight">{pub.title}</h3>
                     <p className="text-sm text-slate-400 font-medium">Published on {pub.date} • Peer Reviewed</p>
                   </div>
-                  <button className="mt-8 md:mt-0 px-8 py-4 border-2 border-slate-100 rounded-2xl font-bold text-sm text-slate-600 hover:bg-slate-900 hover:text-white hover:border-slate-900 flex items-center justify-center gap-3 group/btn transition-all">
-                    Download PDF <FileText size={20} className="text-nile-blue group-hover/btn:text-white transition-colors" />
+                  <button 
+                    onClick={() => handleDownload(pub.title)}
+                    className="mt-8 md:mt-0 px-8 py-4 border-2 border-slate-100 rounded-2xl font-bold text-sm text-slate-600 hover:bg-slate-900 hover:text-white hover:border-slate-900 flex items-center justify-center gap-3 group/btn transition-all"
+                  >
+                    Download PDF <Download size={20} className="text-nile-blue group-hover/btn:text-white transition-colors" />
                   </button>
                 </div>
               </FadeInSection>
