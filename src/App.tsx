@@ -246,7 +246,7 @@ const Navbar = () => {
 
   const navLinks = [
     { name: 'Home', path: '/' },
-    { name: 'About', path: '/about' },
+    { name: 'About Us', path: '/about' },
     { name: 'Research', path: '/research' },
     { name: 'Partnerships', path: '/partnerships' },
     { name: 'Contact', path: '/contact' },
@@ -404,10 +404,10 @@ const Footer = () => (
           of South Sudan’s water resources. Bridging the gap between indigenous hydrology and evidence-based policy.
         </p>
                 <div className="flex gap-4">
-                  <a href="mailto:ceciliaatong@gmail.com" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors">
+                  <a href="mailto:whitenilesuddcenter@gmail.com" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors">
                     <Mail size={18} />
                   </a>
-                  <a href="tel:+254746413065" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors">
+                  <a href="tel:+211914789322" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors">
                     <Phone size={18} />
                   </a>
                   <a href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors">
@@ -436,9 +436,9 @@ const Footer = () => (
       <div>
         <h4 className="font-semibold mb-6">Headquarters</h4>
         <p className="text-water-light/60 text-sm leading-relaxed">
-          Juba, Republic of South Sudan<br />
+          Nile Block 4, Ministry Complex<br />
           Ministry Complex Area<br />
-          Unit 4, White Nile Block
+          Juba, South Sudan
         </p>
       </div>
     </div>
@@ -461,21 +461,21 @@ const HomePage = () => {
 
   const cards = [
     {
-      title: "Hydrology",
+      title: "Hydrology Basin",
       icon: <Droplet className="text-water-blue" />,
-      desc: "Deep scientific research into the intricate water systems and flow dynamics of the White Nile basin.",
+      desc: "Deep scientific research into the intricate water systems and flow dynamics of the White Nile Basin and the broader Region ecosystem/biodiversity.",
       image: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&q=80&w=800"
     },
     {
-      title: "Climate Change",
+      title: "Climate Risks",
       icon: <CloudRain className="text-wetland-green" />,
-      desc: "Mitigating risks associated with unprecedented flooding and persistent seasonal droughts.",
+      desc: "Mitigating Risks associated with unprecedented flooding and persistent seasonal droughts within the White Nile River Corridors.",
       image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80&w=800"
     },
     {
-      title: "Livelihoods",
+      title: "Sudd Livelihoods",
       icon: <Users className="text-water-dark" />,
-      desc: "Ensuring the Sudd Wetlands continue to support millions of livelihoods through sustainable management.",
+      desc: "Ensuring the Sudd Wetlands Continue to support millions of livelihoods and variety of fauna through extensive flora and development and management.",
       image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&q=80&w=800"
     }
   ];
@@ -489,48 +489,49 @@ const HomePage = () => {
       className="overflow-hidden"
     >
       {/* Hero Section */}
-      <section className="relative h-[95vh] min-h-[700px] flex items-center overflow-hidden">
+      <section className="relative h-[100vh] min-h-[700px] flex items-center justify-center overflow-hidden">
         <motion.img 
           style={{ y, scale }}
           src="https://res.cloudinary.com/dpskjlq9m/image/upload/v1776851456/WhatsApp_Image_2026-04-22_at_12.48.29_PM_mxlbdv.jpg" 
           alt="Sudd Wetlands"
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover brightness-[0.8]"
           referrerPolicy="no-referrer"
         />
-        <div className="absolute inset-0 hero-gradient" />
-        <div className="content-section relative z-10 text-white">
+        <div className="absolute inset-0 hero-overlay" />
+        <div className="content-section relative z-10 text-white text-center">
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="max-w-3xl"
+            className="max-w-5xl mx-auto"
           >
-            <motion.span 
+            <motion.div 
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.5, duration: 0.8 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-nile-blue/20 border border-nile-blue/30 backdrop-blur-md text-[10px] font-black uppercase tracking-[0.3em] text-nile-blue mb-8"
+              className="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-[11px] font-black uppercase tracking-[0.4em] text-white/90 mb-10 shadow-xl"
             >
-              <Droplet size={14} /> National Think Tank
-            </motion.span>
-            <h1 className="text-6xl md:text-8xl font-display font-black leading-[0.95] mb-8 tracking-tighter">
-              Protecting the <span className="text-nile-blue">Lifelines</span> of South Sudan.
+              <Droplet size={14} className="text-water-blue" /> National Think Tank
+            </motion.div>
+            <h1 className="text-5xl md:text-8xl font-display font-black leading-[1.05] mb-10 tracking-tighter drop-shadow-2xl">
+              Protecting and Facilitating the <span className="text-white">Natural Lifelines</span> of the White Nile Basin.
             </h1>
-            <p className="text-xl md:text-2xl text-slate-200 leading-relaxed mb-12 max-w-2xl font-light">
-              Scientific study, preservation, and sustainable management of the White Nile & Sudd basin.
+            <p className="text-lg md:text-2xl text-white/80 leading-relaxed mb-14 max-w-3xl mx-auto font-light drop-shadow-md">
+              Scientific study, preservation, sustainable development and management of the White Nile Basin and Sudd Wetland.
             </p>
-            <div className="flex flex-wrap gap-6">
-              <Link to="/about" className="px-10 py-5 bg-nile-blue text-white font-bold rounded-2xl hover:bg-water-dark transition-all flex items-center gap-2 group shadow-2xl shadow-nile-blue/40 hover:-translate-y-1">
+            <div className="flex flex-wrap justify-center gap-8">
+              <Link to="/about" className="px-12 py-5 bg-white text-nile-blue font-bold rounded-2xl hover:bg-nile-blue hover:text-white transition-all flex items-center gap-2 group shadow-2xl hover:-translate-y-1">
                 Explore Our Purpose <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
               </Link>
-              <Link to="/contact" className="px-10 py-5 bg-white/5 backdrop-blur-xl text-white font-bold rounded-2xl border border-white/20 hover:bg-white/10 transition-all hover:-translate-y-1">
+              <Link to="/contact" className="px-12 py-5 bg-white/10 backdrop-blur-xl text-white font-bold rounded-2xl border border-white/30 hover:bg-white/20 transition-all hover:-translate-y-1">
                 Stakeholder Portal
               </Link>
             </div>
           </motion.div>
         </div>
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce text-white/30">
-          <ChevronDown size={40} />
+        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/40 cursor-pointer group" onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}>
+          <span className="text-[10px] font-black uppercase tracking-[0.5em] group-hover:text-white transition-colors">Discover</span>
+          <ChevronDown size={32} className="animate-bounce group-hover:text-white transition-colors" />
         </div>
       </section>
 
@@ -582,10 +583,10 @@ const HomePage = () => {
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 py-20 px-12 bg-white rounded-[4rem] border border-slate-100 shadow-sm relative overflow-hidden">
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-nile-blue/20 to-transparent" />
               {[
-                { val: "120+", label: "Scientific Papers" },
-                { val: "45k", label: "KM Monitored" },
-                { val: "12", label: "Global Partners" },
-                { val: "10M", label: "Lives Secured" }
+                { val: "30", label: "DOCUMENTS/PROPOSALS" },
+                { val: "100sM", label: "Projects Implemented" },
+                { val: "10", label: "Animals/Birds Migration Sustained" },
+                { val: "10M", label: "Social Impact" }
               ].map((stat, i) => (
                 <div key={i} className="text-center relative group">
                   <div className="text-5xl font-display font-black text-nile-blue mb-3 group-hover:scale-110 transition-transform duration-500">{stat.val}</div>
@@ -629,9 +630,9 @@ const HomePage = () => {
                 image: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&q=80&w=800"
               },
               {
-                title: "Upcoming Seminar: The Role of Indigenous Wisdom in Modern Climate Adaptation",
-                category: "Event",
-                date: "May 10, 2026",
+                title: "Press Release: Conclusion of the Sudd Wetland Hybrid Global Conference",
+                category: "Climate",
+                date: "May 2, 2026",
                 image: "https://images.unsplash.com/photo-1544333323-5374438186f2?auto=format&fit=crop&q=80&w=800"
               }
             ].map((news, i) => (
@@ -672,9 +673,9 @@ const HomePage = () => {
       <section className="bg-wetland-dark py-24 text-white relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-wetland-green/20 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2" />
         <div className="content-section relative z-10 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-8">Join the Scientific Vanguard</h2>
+          <h2 className="text-4xl md:text-5xl font-bold mb-8">Join the Scientific Vanguard on Wetland</h2>
           <p className="text-wetland-accent text-xl mb-12 max-w-2xl mx-auto font-light leading-relaxed">
-            Collaborating with international  and  regional  centers of execellence to secure a sustainable future for the White Nile basin.
+            Collaborating with international and regional centers of excellence to secure a sustainable future for the White Nile Basin.
           </p>
           <Link to="/contact" className="px-10 py-5 bg-white text-wetland-dark font-bold rounded-2xl hover:bg-wetland-accent transition-all inline-block shadow-2xl">
             Register as a Partner
@@ -759,7 +760,7 @@ const AboutPage = () => {
             </div>
             <h2 className="text-3xl font-bold text-water-dark mb-6">Our Mission</h2>
             <p className="text-water-dark/80 text-lg leading-relaxed">
-              To promote sustainable preservation, utilization, development, and control of the White Nile and Sudd Wetlands for the prosperity of South Sudan.
+              To promote sustainable preservation, utilization, development and management of the White Nile Basin, Sudd Wetland and other environmental resources for the benefit of the region and related activities.
             </p>
           </div>
           <img 
@@ -958,9 +959,9 @@ const ResearchPage = () => {
         <div className="content-section relative z-10">
           <FadeInSection y={30}>
             <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/40 mb-6 block">Knowledge Repository</span>
-            <h1 className="text-6xl md:text-8xl font-display font-black mb-8 tracking-tighter leading-none">Research & Data.</h1>
+            <h1 className="text-6xl md:text-8xl font-display font-black mb-8 tracking-tighter leading-none">Research & Data Analyses & Projects.</h1>
             <p className="text-water-light/60 text-xl max-w-2xl mx-auto font-light leading-relaxed">
-              Access the focused  largest repository of hydrological products ,water resources,development /management and environmental studies dedicated to the Sudd region.
+              Access the focused largest repository of hydrological products, water resources development/management and environmental studies dedicated to the Sudd Region.
             </p>
           </FadeInSection>
         </div>
@@ -1002,6 +1003,12 @@ const ResearchPage = () => {
           
           <div className="grid grid-cols-1 gap-8">
             {[
+              { 
+                title: "Impacts of Climate Change on the Sudd Wetland: WNSC & Wake Forest Global Conference", 
+                date: "May 2026",
+                category: "Climate",
+                type: "Conference Report"
+              },
               { 
                 title: "Hydrological Shifts in the Sudd Wetlands: A Decadal Analysis", 
                 date: "March 2026",
@@ -1074,20 +1081,20 @@ const PartnershipsPage = () => {
           </FadeInSection>
           <FadeInSection delay={0.2}>
             <p className="text-slate-600 text-xl leading-relaxed font-light">
-              The WNSC believes that solving complex water challenges requires a convergence of national expertise and international resources. We partner with universities, NGOs, and government agencies to ensure our research is globally significant and locally relevant.
+              The WNSC believes that solving complex water challenges requires a convergence of national and specialized expertise and international resources for social impact. We partner with universities like <span className="text-nile-blue font-bold">Wake Forest University</span>, NGOs, and government agencies to ensure our research is globally significant and locally relevant.
             </p>
           </FadeInSection>
           
           <div className="grid grid-cols-2 gap-8">
             <FadeInSection delay={0.3}>
               <div className="p-8 rounded-[2.5rem] bg-slate-50 border border-slate-100 group hover:bg-white hover:shadow-xl transition-all duration-500">
-                <div className="text-3xl font-display font-black text-nile-blue mb-3">Scientific</div>
+                <div className="text-3xl font-display font-black text-nile-blue mb-3">Partners and</div>
                 <p className="text-sm text-slate-500 leading-relaxed">Joint research papers and transboundary data sharing initiatives.</p>
               </div>
             </FadeInSection>
             <FadeInSection delay={0.4}>
               <div className="p-8 rounded-[2.5rem] bg-slate-50 border border-slate-100 group hover:bg-white hover:shadow-xl transition-all duration-500">
-                <div className="text-3xl font-display font-black text-wetland-green mb-3">Technical</div>
+                <div className="text-3xl font-display font-black text-wetland-green mb-3">Consultants</div>
                 <p className="text-sm text-slate-500 leading-relaxed">Infrastructure monitoring and remote sensing support systems.</p>
               </div>
             </FadeInSection>
@@ -1217,7 +1224,7 @@ const ContactPage = () => {
                     <div>
                       <h4 className="font-black text-[10px] uppercase tracking-widest text-water-light/30 mb-2">Primary HQ</h4>
                       <p className="text-xl font-bold">Juba, South Sudan</p>
-                      <p className="text-sm text-water-light/50 mt-1 italic font-light">Ministry Complex, Nile Block 4</p>
+                      <p className="text-sm text-water-light/50 mt-1 italic font-light">Nile Block 4, Ministry Complex</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-8 group">
@@ -1226,7 +1233,7 @@ const ContactPage = () => {
                     </div>
                     <div>
                       <h4 className="font-black text-[10px] uppercase tracking-widest text-water-light/30 mb-2">Digital Secretariat</h4>
-                      <p className="text-xl font-bold">ceciliaatong@gmail.com</p>
+                      <p className="text-xl font-bold">whitenilesuddcenter@gmail.com</p>
                       <p className="text-sm text-water-light/50 mt-1 italic font-light">Stakeholder Correspondence</p>
                     </div>
                   </div>
@@ -1236,7 +1243,7 @@ const ContactPage = () => {
                     </div>
                     <div>
                       <h4 className="font-black text-[10px] uppercase tracking-widest text-water-light/30 mb-2">Field Liaison</h4>
-                      <p className="text-xl font-bold">+254 746 413 065</p>
+                      <p className="text-xl font-bold">+211 914 789 322</p>
                       <p className="text-sm text-water-light/50 mt-1 italic font-light">Direct Research Line</p>
                     </div>
                   </div>
