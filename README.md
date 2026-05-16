@@ -1,18 +1,20 @@
-# WNSC website
+<div align="center">
+<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+</div>
 
-Static marketing site for **The White Nile and The Sudd Centre (WNSC)** — a national think tank focused on South Sudan’s water resources, the White Nile basin, and the Sudd Wetland.
+# Run and deploy your AI Studio app
 
-## Run locally
+This contains everything you need to run your app locally.
 
-**Prerequisites:** Node.js 20+
+View your app in AI Studio: https://ai.studio/apps/d23110f1-7230-45fe-a396-21045f83c7a8
 
-1. Install dependencies: `npm install`
-2. Start the dev server: `npm run dev`
-3. Open the URL shown in the terminal (default: port 3000)
+## Run Locally
 
-## Scripts
+**Prerequisites:**  Node.js
 
-- `npm run dev` — Vite dev server
-- `npm run build` — production build
-- `npm run preview` — preview the production build
-- `npm run lint` — TypeScript check (`tsc --noEmit`)
+
+1. Install dependencies:
+   `npm install`
+2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+3. Run the app:
+   `npm run dev`

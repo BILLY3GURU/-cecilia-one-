@@ -3,9 +3,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect, type ChangeEvent, type FormEvent, type ReactNode } from 'react';
+import React, { useState, useEffect, useRef, type ChangeEvent, type FormEvent, type ReactNode } from 'react';
 import { BrowserRouter, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
+import { GoogleGenAI } from "@google/genai";
+import Markdown from 'react-markdown';
 import { 
   Droplet, 
   Leaf, 
@@ -23,63 +25,34 @@ import {
   X,
   ChevronDown,
   Search,
+  Loader2,
   FileText,
+  ExternalLink,
   Globe,
   Building2,
   Network,
+  Newspaper,
   Zap,
   CheckCircle2,
   Globe2,
   Download
 } from 'lucide-react';
 
-// --- Static knowledge index (curated topics; no external API) ---
-type KnowledgeEntry = { title: string; summary: string; tags: string[]; type: string };
+// --- Constants ---
+const GEMINI_MODEL = "gemini-3-flash-preview";
 
-const KNOWLEDGE_BASE: KnowledgeEntry[] = [
-  {
-    title: "Impacts of Climate Change on the Sudd Wetland: WNSC & Wake Forest Global Conference",
-    summary: "Conference proceedings on climate drivers, wetland hydrology, and regional adaptation priorities.",
-    tags: ["climate", "sudd", "conference", "wetland", "wake forest"],
-    type: "Conference report",
-  },
-  {
-    title: "Hydrological Shifts in the Sudd Wetlands: A Decadal Analysis",
-    summary: "Technical synthesis of long-term flow and inundation patterns across the Sudd.",
-    tags: ["hydrology", "decadal", "sudd", "inundation", "flow"],
-    type: "Technical paper",
-  },
-  {
-    title: "Impact of Local Oil Extraction on Surface Water Quality (2020–2025)",
-    summary: "Monitoring-oriented assessment linking extractive activity to surface water chemistry.",
-    tags: ["oil", "water quality", "environment", "pollution", "monitoring"],
-    type: "Impact study",
-  },
-  {
-    title: "Feasibility Study on the Resumption of the Jonglei Canal Project",
-    summary: "Policy-oriented review of engineering, environmental, and transboundary considerations.",
-    tags: ["jonglei", "canal", "feasibility", "policy", "transboundary"],
-    type: "Government report",
-  },
-  {
-    title: "WNSC Submits White Paper on Sudd Basin Management to Regional Stakeholders",
-    summary: "Stakeholder-facing summary of basin management options and evidence gaps.",
-    tags: ["white paper", "sudd", "basin", "stakeholders", "management"],
-    type: "Policy brief",
-  },
-  {
-    title: "Joint Expedition: Wetland Biomass Survey",
-    summary: "Field campaign notes on vegetation structure and seasonal biomass in key Sudd transects.",
-    tags: ["biomass", "wetland", "survey", "biodiversity", "field"],
-    type: "Research note",
-  },
-  {
-    title: "Sudd Wetland Hybrid Global Conference — Press Release",
-    summary: "Outcomes and commitments from the hybrid global conference on Sudd conservation.",
-    tags: ["conference", "press", "sudd", "global", "wetland"],
-    type: "Press release",
-  },
-];
+// Lazy-initialized AI client to prevent crashes if API key is missing on startup
+let aiClient: GoogleGenAI | null = null;
+const getAI = () => {
+  if (!aiClient) {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      throw new Error("GEMINI_API_KEY environment variable is required. Please set it in the AI Studio Secrets panel.");
+    }
+    aiClient = new GoogleGenAI({ apiKey });
+  }
+  return aiClient;
+};
 
 // --- Components ---
 
@@ -96,37 +69,49 @@ const FadeInSection = ({ children, delay = 0, y = 20 }: { children: ReactNode, d
 
 const SearchSection = () => {
   const [query, setQuery] = useState("");
-  const [matched, setMatched] = useState<KnowledgeEntry[] | null>(null);
+  const [results, setResults] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { search } = useLocation();
 
-  const performSearch = (searchTerm: string) => {
-    const trimmed = searchTerm.trim();
-    if (!trimmed) {
-      setError("Please enter a search term.");
-      setMatched(null);
-      return;
-    }
+  const performSearch = async (searchTerm: string) => {
+    if (!searchTerm.trim()) return;
 
+    setLoading(true);
     setError(null);
-    const terms = trimmed.toLowerCase().split(/\s+/).filter(Boolean);
-    const hits = KNOWLEDGE_BASE.filter((entry) => {
-      const haystack = `${entry.title} ${entry.summary} ${entry.tags.join(" ")}`.toLowerCase();
-      return terms.every((t) => haystack.includes(t));
-    });
-    setMatched(hits);
+    setResults(null);
+
+    try {
+      const ai = getAI();
+      const response = await ai.models.generateContent({
+        model: GEMINI_MODEL,
+        contents: `Act as a research assistant for The White Nile and The Sudd Centre (WNSC). Using your search capabilities, find information related to: ${searchTerm}. Focus on research papers, reports, and up-to-date data about South Sudan's water resources, hydrology, and environmental policy. Provide a concise summary of findings.`,
+        config: {
+          tools: [{ googleSearch: {} }],
+          systemInstruction: "You are the WNSC Research Assistant. You provide evidence-based information regarding South Sudan's hydrology, climate risks, and water management. Always cite your sources or mention that information is derived from current research reports.",
+        }
+      });
+
+      setResults(response.text || "No specific research findings found for this query.");
+    } catch (err) {
+      console.error("Search error:", err);
+      setError("An error occurred while retrieving research data. Please try again later. Ensure your API key is configured correctly in the Secrets panel.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
     const params = new URLSearchParams(search);
-    const q = params.get("q");
+    const q = params.get('q');
     if (q) {
       setQuery(q);
       performSearch(q);
-
-      const element = document.getElementById("research-search");
+      
+      // Also scroll to the search section if it exists
+      const element = document.getElementById('research-search');
       if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
+        element.scrollIntoView({ behavior: 'smooth' });
       }
     }
   }, [search]);
@@ -141,11 +126,11 @@ const SearchSection = () => {
       <div className="content-section">
         <div className="max-w-4xl mx-auto text-center mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-water-blue/10 border border-water-blue/20 text-xs font-bold uppercase tracking-widest text-water-blue mb-6">
-            <Search size={14} /> Knowledge repository
+            <Search size={14} /> AI-Powered Research Portal
           </div>
-          <h2 className="text-4xl font-bold text-water-dark mb-6">Explore the WNSC knowledge base</h2>
+          <h2 className="text-4xl font-bold text-water-dark mb-6">Explore the WNSC Knowledge Base</h2>
           <p className="text-slate-600 text-lg">
-            Search curated titles and topics from our scientific reports, feasibility studies, and environmental assessments. For full documents, use the publications list on the Research page or contact the secretariat.
+            Search through our scientific reports, feasibility studies, and environmental assessments using our intelligent research assistant.
           </p>
         </div>
 
@@ -155,15 +140,16 @@ const SearchSection = () => {
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Try: Jonglei, Sudd, hydrology, flood, oil, climate..."
+              placeholder="Search e.g., 'Jonglei Canal feasibility', 'Sudd wetland biodiversity', 'flood patterns'..."
               className="w-full px-8 py-6 bg-slate-50 border-2 border-slate-100 rounded-[2rem] text-lg focus:ring-4 focus:ring-water-blue/10 focus:border-water-blue transition-all outline-none pl-14"
             />
             <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-water-blue transition-colors" size={24} />
-            <button
+            <button 
               type="submit"
-              className="absolute right-3 top-1/2 -translate-y-1/2 px-8 py-3.5 bg-water-blue text-white font-bold rounded-[1.5rem] hover:bg-water-dark transition-all flex items-center gap-2"
+              disabled={loading}
+              className="absolute right-3 top-1/2 -translate-y-1/2 px-8 py-3.5 bg-water-blue text-white font-bold rounded-[1.5rem] hover:bg-water-dark transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
             >
-              Search
+              {loading ? <Loader2 className="animate-spin" size={20} /> : "Query Base"}
             </button>
           </form>
 
@@ -179,7 +165,7 @@ const SearchSection = () => {
               </motion.div>
             )}
 
-            {matched !== null && (
+            {results && (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -188,28 +174,14 @@ const SearchSection = () => {
                 <div className="absolute top-0 right-0 w-32 h-32 bg-water-blue/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
                 <div className="relative z-10">
                   <div className="flex items-center gap-3 mb-6 text-water-blue font-bold uppercase tracking-widest text-xs">
-                    <FileText size={18} /> Matching resources
+                    <FileText size={18} /> Research Intelligence Report
                   </div>
-                  {matched.length === 0 ? (
-                    <p className="text-slate-600 leading-relaxed">
-                      No entries matched that query. Try broader keywords (e.g. “Sudd”, “hydrology”, “Jonglei”) or browse the publications on the Research page.
-                    </p>
-                  ) : (
-                    <ul className="space-y-6 text-slate-700">
-                      {matched.map((item) => (
-                        <li key={item.title} className="border-b border-slate-200/80 pb-6 last:border-0 last:pb-0">
-                          <p className="text-[10px] font-black uppercase tracking-widest text-nile-blue mb-1">{item.type}</p>
-                          <p className="font-bold text-water-dark text-lg leading-snug mb-2">{item.title}</p>
-                          <p className="text-slate-600 leading-relaxed text-sm">{item.summary}</p>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
+                  <div className="markdown-body prose prose-slate max-w-none text-slate-700 leading-relaxed font-sans">
+                    <Markdown>{results}</Markdown>
+                  </div>
                   <div className="mt-8 pt-6 border-t border-slate-200 flex justify-between items-center text-[10px] uppercase tracking-[0.2em] font-bold text-slate-400">
-                    <span>Curated WNSC index — not an automated web search</span>
-                    <button type="button" onClick={() => setMatched(null)} className="hover:text-water-blue transition-colors">
-                      Clear results
-                    </button>
+                    <span>Generated via WNSC AI-Grounding</span>
+                    <button onClick={() => setResults(null)} className="hover:text-water-blue transition-colors">Clear Results</button>
                   </div>
                 </div>
               </motion.div>
@@ -252,8 +224,10 @@ const GlobalSearchBar = () => {
             placeholder="Search the WNSC repository: reports, data, policy..."
             className="w-full pl-12 pr-20 py-2.5 bg-white/50 border border-slate-200 rounded-full text-sm focus:outline-none focus:bg-white focus:border-nile-blue transition-all"
           />
-          <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
-            <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest hidden sm:inline">Repository</span>
+          <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2 pointer-events-none">
+            <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest hidden sm:inline">AI GROUNDED</span>
+            <div className="h-4 w-px bg-slate-200 hidden sm:block"></div>
+            <Zap size={14} className="text-amber-500 animate-pulse" />
           </div>
         </form>
       </div>
@@ -627,7 +601,7 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Knowledge base search */}
+      {/* AI Research Search Section */}
       <SearchSection />
 
       {/* News & Strategic Updates Section */}
@@ -883,17 +857,19 @@ const AboutPage = () => {
         <div className="content-section">
           <FadeInSection>
             <div className="text-center max-w-3xl mx-auto mb-24">
-              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-nile-blue">The Collective</span>
-              <h2 className="text-5xl font-display font-black text-water-dark mt-4 tracking-tighter">The Scientific Vanguard</h2>
+              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-nile-blue">Leadership</span>
+              <h2 className="text-5xl font-display font-black text-water-dark mt-4 tracking-tighter">Members of the Board Trustees</h2>
               <div className="w-20 h-1 bg-nile-blue mx-auto mt-8 rounded-full" />
             </div>
           </FadeInSection>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             {[
-              { name: "Dr. Lual Deng", role: "Executive Director", focus: "Environmental Policy" },
-              { name: "Prof. Sarah Nyandeng", role: "Chief Hydrologist", focus: "Wetland Dynamics" },
-              { name: "Hon. Kuol Manyang", role: "Strategic Advisor", focus: "Transboundary Waters" }
+              { name: "Joshua Dau Diu", role: "Chairman", focus: "Executive Oversight" },
+              { name: "Isaac Liabwel C. Yol", role: "Deputy Chairman of Board Trustees", focus: "Strategic Governance" },
+              { name: "Julia A. Duany", role: "Member of Board Trustees", focus: "Institutional Development" },
+              { name: "Nhial Titmamer", role: "Member of Board Trustees", focus: "Research & Sustainability" },
+              { name: "Dr. John Leju Celestino Ladu", role: "Member of Board Trustees", focus: "Scientific Integrity" }
             ].map((member, i) => (
               <FadeInSection key={i} delay={i * 0.1}>
                 <div className="group bg-white p-12 rounded-[4rem] border border-slate-100 shadow-sm hover:shadow-2xl transition-all duration-700 text-center relative overflow-hidden">
@@ -1355,8 +1331,8 @@ const ContactPage = () => {
                           type="text" 
                           value={formData.name}
                           onChange={handleChange}
-                          className={`w-full px-8 py-5 bg-slate-50 border-2 ${errors.name ? 'border-red-500' : 'border-slate-100'} rounded-3xl focus:bg-white focus:border-nile-blue transition-all outline-none font-medium text-slate-900 shadow-sm shadow-slate-100/50`}
-                          placeholder="e.g. Nyaduor Malong"
+                          className={`w-full px-8 py-5 bg-slate-50 border-2 ${errors.name ? 'border-red-500' : 'border-slate-100'} rounded-3xl focus:bg-white focus:border-nile-blue transition-all outline-none font-medium text-slate-900 shadow-sm shadow-slate-100/50`} 
+                          placeholder="Dr. John Doe" 
                         />
                         {errors.name && <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-red-500 text-[10px] uppercase font-black tracking-widest pl-4">{errors.name}</motion.p>}
                       </div>
@@ -1367,8 +1343,8 @@ const ContactPage = () => {
                           type="email" 
                           value={formData.email}
                           onChange={handleChange}
-                          className={`w-full px-8 py-5 bg-slate-50 border-2 ${errors.email ? 'border-red-500' : 'border-slate-100'} rounded-3xl focus:bg-white focus:border-nile-blue transition-all outline-none font-medium text-slate-900 shadow-sm shadow-slate-100/50`}
-                          placeholder="programs@institution.example"
+                          className={`w-full px-8 py-5 bg-slate-50 border-2 ${errors.email ? 'border-red-500' : 'border-slate-100'} rounded-3xl focus:bg-white focus:border-nile-blue transition-all outline-none font-medium text-slate-900 shadow-sm shadow-slate-100/50`} 
+                          placeholder="j.doe@university.edu" 
                         />
                         {errors.email && <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-red-500 text-[10px] uppercase font-black tracking-widest pl-4">{errors.email}</motion.p>}
                       </div>
@@ -1400,8 +1376,8 @@ const ContactPage = () => {
                         rows={5} 
                         value={formData.message}
                         onChange={handleChange}
-                        className={`w-full px-8 py-5 bg-slate-50 border-2 ${errors.message ? 'border-red-500' : 'border-slate-100'} rounded-3xl focus:bg-white focus:border-nile-blue transition-all outline-none font-medium text-slate-900 shadow-sm shadow-slate-100/50 resize-none`}
-                        placeholder="e.g. We are a university lab studying Sudd inundation patterns and would like to explore data sharing and a joint seminar in Juba."
+                        className={`w-full px-8 py-5 bg-slate-50 border-2 ${errors.message ? 'border-red-500' : 'border-slate-100'} rounded-3xl focus:bg-white focus:border-nile-blue transition-all outline-none font-medium text-slate-900 shadow-sm shadow-slate-100/50 resize-none`} 
+                        placeholder="Detail your scientific proposal or institutional inquiry..."
                       ></textarea>
                       {errors.message && <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-red-500 text-[10px] uppercase font-black tracking-widest pl-4">{errors.message}</motion.p>}
                     </div>
