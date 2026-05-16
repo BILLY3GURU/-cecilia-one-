@@ -855,31 +855,91 @@ const AboutPage = () => {
       {/* Team/Leadership Section */}
       <section className="bg-slate-50 py-32 overflow-hidden">
         <div className="content-section">
+          {/* Executive Leadership */}
+          <FadeInSection>
+            <div className="text-center max-w-3xl mx-auto mb-16">
+              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-nile-blue">Executive Management</span>
+              <h2 className="text-5xl font-display font-black text-water-dark mt-4 tracking-tighter">Executive Leadership</h2>
+              <div className="w-20 h-1 bg-nile-blue mx-auto mt-8 rounded-full" />
+            </div>
+          </FadeInSection>
+
+          <div className="flex justify-center mb-32">
+            <FadeInSection delay={0.1}>
+              <div className="group bg-white p-12 rounded-[4rem] border border-slate-100 shadow-sm hover:shadow-2xl transition-all duration-700 text-center relative overflow-hidden max-w-md w-full">
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-nile-blue/20 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-700" />
+                <div className="w-40 h-40 bg-slate-50 rounded-[3rem] mx-auto mb-8 flex items-center justify-center text-slate-200 group-hover:bg-nile-blue/10 transition-all duration-500 shadow-inner overflow-hidden">
+                  <img 
+                    src="https://wfu-cvent.cventevents.com/event_guestside_app/_next/image?url=https%3A%2F%2Fimages.cvent.com%2F2cffd958ab6a4bb582966144ae4905f4%2Ffiles%2Fevent%2F28224ac0cd6e4b588c1ad15da3f19483%2Fbf976707d741433ba1f14f46bfbd6d65!_!97252c45b95ff4c6662b1fcb9eda066a.jpg&w=1920&q=75" 
+                    alt="Tong Deng Anei" 
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    referrerPolicy="no-referrer"
+                  />
+                </div>
+                <h3 className="text-3xl font-display font-black text-slate-900 mb-2">Tong Deng Anei</h3>
+                <p className="text-nile-blue text-[12px] font-black uppercase tracking-[0.2em] mb-6">Managing Director</p>
+                <div className="pt-6 border-t border-slate-50">
+                  <span className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-300">Expertise: Regional Hydropolitics</span>
+                </div>
+              </div>
+            </FadeInSection>
+          </div>
+
+          {/* Board Of Trustees */}
           <FadeInSection>
             <div className="text-center max-w-3xl mx-auto mb-24">
-              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-nile-blue">Leadership</span>
-              <h2 className="text-5xl font-display font-black text-water-dark mt-4 tracking-tighter">Members of the Board Trustees</h2>
+              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-nile-blue">Governance</span>
+              <h2 className="text-5xl font-display font-black text-water-dark mt-4 tracking-tighter">Board of Trustees</h2>
               <div className="w-20 h-1 bg-nile-blue mx-auto mt-8 rounded-full" />
             </div>
           </FadeInSection>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             {[
-              { name: "Joshua Dau Diu", role: "Chairman", focus: "Executive Oversight" },
-              { name: "Isaac Liabwel C. Yol", role: "Deputy Chairman of Board Trustees", focus: "Strategic Governance" },
-              { name: "Julia A. Duany", role: "Member of Board Trustees", focus: "Institutional Development" },
-              { name: "Nhial Titmamer", role: "Member of Board Trustees", focus: "Research & Sustainability" },
-              { name: "Dr. John Leju Celestino Ladu", role: "Member of Board Trustees", focus: "Scientific Integrity" }
+              { 
+                name: "Joshua Dau Diu", 
+                role: "Chairman", 
+                focus: "Executive Oversight",
+                image: null 
+              },
+              { 
+                name: "Isaac Liabwel C. Yol", 
+                role: "Deputy Chairman of Board Trustees", 
+                focus: "Strategic Governance",
+                image: "https://wfu-cvent.cventevents.com/event_guestside_app/_next/image?url=https%3A%2F%2Fimages.cvent.com%2F2cffd958ab6a4bb582966144ae4905f4%2Ffiles%2Fevent%2F28224ac0cd6e4b588c1ad15da3f19483%2F85e64cb3c592491ea73d300bbfdb728d!_!ad4564a4a4255aa30e7ce3f928795882.jpg&w=1920&q=75" 
+              },
+              { 
+                name: "Julia A. Duany", 
+                role: "Member of Board Trustees", 
+                focus: "Institutional Development",
+                image: "https://wfu-cvent.cventevents.com/event_guestside_app/_next/image?url=https%3A%2F%2Fimages.cvent.com%2F2cffd958ab6a4bb582966144ae4905f4%2Ffiles%2Fevent%2F28224ac0cd6e4b588c1ad15da3f19483%2Feddcab8f564a44bbba392570bc6db092!_!0f0532fa54eabb76c87900a1042080d4.jpg&w=1920&q=75" 
+              },
+              { 
+                name: "Nhial Titmamer", 
+                role: "Member of Board Trustees", 
+                focus: "Research & Sustainability",
+                image: "https://wfu-cvent.cventevents.com/event_guestside_app/_next/image?url=https%3A%2F%2Fimages.cvent.com%2F2cffd958ab6a4bb582966144ae4905f4%2Ffiles%2Fevent%2F28224ac0cd6e4b588c1ad15da3f19483%2F20d1e1ee00d94ba88622e24ab3759e4b!_!93129e8bfd2c440c56719804f55bf18a.jpg&w=1920&q=75" 
+              },
+              { 
+                name: "Dr. John Leju Celestino Ladu", 
+                role: "Member of Board Trustees", 
+                focus: "Environmental Studies, University of Juba",
+                image: "https://wfu-cvent.cventevents.com/event_guestside_app/_next/image?url=https%3A%2F%2Fimages.cvent.com%2F2cffd958ab6a4bb582966144ae4905f4%2Ffiles%2Fevent%2F28224ac0cd6e4b588c1ad15da3f19483%2Fb1e5d547ec8846dea67640cc9b8264e6!_!9eb34308a5baf7b42e38e5c8bacd2a9e.png&w=1920&q=75" 
+              }
             ].map((member, i) => (
               <FadeInSection key={i} delay={i * 0.1}>
-                <div className="group bg-white p-12 rounded-[4rem] border border-slate-100 shadow-sm hover:shadow-2xl transition-all duration-700 text-center relative overflow-hidden">
+                <div className="group bg-white p-12 rounded-[4rem] border border-slate-100 shadow-sm hover:shadow-2xl transition-all duration-700 text-center relative overflow-hidden h-full flex flex-col items-center">
                   <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-nile-blue/20 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-700" />
-                  <div className="w-28 h-28 bg-slate-50 rounded-[2.5rem] mx-auto mb-8 flex items-center justify-center text-slate-200 group-hover:bg-nile-blue/10 group-hover:text-nile-blue group-hover:rotate-6 transition-all duration-500 shadow-inner">
-                    <Users size={48} />
+                  <div className="w-28 h-28 bg-slate-50 rounded-[2.5rem] mx-auto mb-8 flex items-center justify-center text-slate-200 group-hover:bg-nile-blue/10 group-hover:text-nile-blue group-hover:rotate-6 transition-all duration-500 shadow-inner overflow-hidden">
+                    {member.image ? (
+                      <img src={member.image} alt={member.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                    ) : (
+                      <Users size={48} />
+                    )}
                   </div>
                   <h3 className="text-2xl font-display font-black text-slate-900 mb-2">{member.name}</h3>
-                  <p className="text-nile-blue text-[10px] font-black uppercase tracking-[0.2em] mb-6">{member.role}</p>
-                  <div className="pt-6 border-t border-slate-50">
+                  <p className="text-nile-blue text-[10px] font-black uppercase tracking-[0.2em] mb-6 h-8 flex items-center justify-center overflow-hidden">{member.role}</p>
+                  <div className="pt-6 border-t border-slate-50 mt-auto w-full">
                     <span className="text-[9px] font-black uppercase tracking-[0.25em] text-slate-300">Expertise: {member.focus}</span>
                   </div>
                 </div>
